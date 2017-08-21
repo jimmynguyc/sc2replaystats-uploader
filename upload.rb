@@ -35,7 +35,7 @@ class Sc2ReplayStatsUploader
         files = Dir.glob("#{BLIZZARD_ACCOUNT_FOLDER}/#{account}/Replays/#{game_type}/*.SC2Replay").sort_by {|f| File.mtime(f) }.reverse
         files.each do |file|
           file_name = File.basename(file)
-          break if !Replay.find_by(file_name: file_name, account: account, game_type: game_type).nil?
+          next if !Replay.find_by(file_name: file_name, account: account, game_type: game_type).nil?
 
           @new_replays << file
           Replay.create(file_name: file_name, account: account, game_type: game_type, recorded_at: Time.now)
